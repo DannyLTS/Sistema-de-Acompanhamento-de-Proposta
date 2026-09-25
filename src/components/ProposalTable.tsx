@@ -13,7 +13,6 @@ import {
   Stethoscope,
   Shield,
   HeartPulse,
-  Printer,
   Download,
 } from 'lucide-react';
 import { generateProposalWhatsAppText } from '../utils/exporter';
@@ -21,7 +20,6 @@ import { generateProposalWhatsAppText } from '../utils/exporter';
 interface ProposalTableProps {
   proposals: HealthProposal[];
   onSelectProposal: (proposal: HealthProposal) => void;
-  onOpenPrintExecutiveReport?: () => void;
   onExportExcel?: () => void;
 }
 
@@ -30,7 +28,6 @@ type SortField = 'numero' | 'cliente' | 'data' | 'dias' | 'status' | 'corretora'
 export const ProposalTable: React.FC<ProposalTableProps> = ({
   proposals,
   onSelectProposal,
-  onOpenPrintExecutiveReport,
   onExportExcel,
 }) => {
   const [sortField, setSortField] = useState<SortField>('dias');
@@ -103,17 +100,6 @@ export const ProposalTable: React.FC<ProposalTableProps> = ({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {onOpenPrintExecutiveReport && (
-            <button
-              onClick={onOpenPrintExecutiveReport}
-              title="Gerar dossiê com indicadores e pendências separadas por corretora e status para impressão e cobrança"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Dossiê para Impressão / PDF</span>
-            </button>
-          )}
-
           {onExportExcel && (
             <button
               onClick={onExportExcel}
@@ -149,27 +135,27 @@ export const ProposalTable: React.FC<ProposalTableProps> = ({
             <tr className="border-b border-slate-200 bg-slate-50/80 text-[11px] font-semibold text-slate-600 select-none">
               <th
                 onClick={() => handleSort('numero')}
-                className="py-2.5 px-3.5 cursor-pointer hover:text-slate-900 font-mono"
+                className="py-2.5 px-2.5 cursor-pointer hover:text-slate-900 whitespace-nowrap"
               >
                 <div className="flex items-center gap-1">
-                  <span>Nº PROPOSTA</span>
+                  <span>ADESÃO / Nº</span>
                   <ArrowUpDown className="w-3 h-3 text-slate-400" />
                 </div>
               </th>
 
               <th
                 onClick={() => handleSort('cliente')}
-                className="py-2.5 px-3.5 cursor-pointer hover:text-slate-900"
+                className="py-2.5 px-2.5 cursor-pointer hover:text-slate-900"
               >
                 <div className="flex items-center gap-1">
-                  <span>CLIENTE / BENEFICIÁRIO</span>
+                  <span>CLIENTE / OPERADORA</span>
                   <ArrowUpDown className="w-3 h-3 text-slate-400" />
                 </div>
               </th>
 
               <th
                 onClick={() => handleSort('status')}
-                className="py-2.5 px-3.5 cursor-pointer hover:text-slate-900"
+                className="py-2.5 px-2.5 cursor-pointer hover:text-slate-900"
               >
                 <div className="flex items-center gap-1">
                   <span>STATUS CLIENTE & PEDIDO</span>
@@ -179,7 +165,7 @@ export const ProposalTable: React.FC<ProposalTableProps> = ({
 
               <th
                 onClick={() => handleSort('corretora')}
-                className="py-2.5 px-3.5 cursor-pointer hover:text-slate-900"
+                className="py-2.5 px-2.5 cursor-pointer hover:text-slate-900"
               >
                 <div className="flex items-center gap-1">
                   <span>CORRETORA / CONSULTOR</span>
@@ -187,25 +173,25 @@ export const ProposalTable: React.FC<ProposalTableProps> = ({
                 </div>
               </th>
 
-              <th className="py-2.5 px-3.5">
+              <th className="py-2.5 px-2">
                 <span>ENTIDADE</span>
               </th>
 
               <th
                 onClick={() => handleSort('dias')}
-                className="py-2.5 px-3.5 cursor-pointer hover:text-slate-900 text-right font-mono"
+                className="py-2.5 px-2 cursor-pointer hover:text-slate-900 text-center font-mono whitespace-nowrap"
               >
-                <div className="flex items-center justify-end gap-1">
-                  <span>SLA (DIAS)</span>
+                <div className="flex items-center justify-center gap-1">
+                  <span>SLA</span>
                   <ArrowUpDown className="w-3 h-3 text-slate-400" />
                 </div>
               </th>
 
-              <th className="py-2.5 px-3.5 text-center">
-                <span>BENEFÍCIOS VINCULADOS</span>
+              <th className="py-2.5 px-2 text-center whitespace-nowrap">
+                <span>BENEFÍCIOS</span>
               </th>
 
-              <th className="py-2.5 px-3.5 text-right">
+              <th className="py-2.5 px-2 text-right whitespace-nowrap">
                 <span>AÇÕES</span>
               </th>
             </tr>
@@ -236,101 +222,107 @@ export const ProposalTable: React.FC<ProposalTableProps> = ({
                     onClick={() => onSelectProposal(p)}
                     className="hover:bg-blue-50/40 cursor-pointer transition-colors group"
                   >
-                    {/* Contract Number */}
-                    <td className="py-3 px-3.5 font-mono tabular-nums font-semibold text-slate-900 whitespace-nowrap">
-                      #{p.numeroSaude}
-                      <span className="block text-[10px] text-slate-400 font-sans font-normal">
-                        Adesão: {p.adesaoSolicitada}
-                      </span>
+                    {/* Primary: Data Adesão | Subtitle: Nº Proposta # */}
+                    <td className="py-2.5 px-2.5 whitespace-nowrap">
+                      <div className="font-bold text-slate-900 text-xs font-sans">
+                        {p.adesaoSolicitada || '01/10/2026'}
+                      </div>
+                      <div className="text-[11px] font-mono text-slate-500 font-semibold">
+                        #{p.numeroSaude}
+                      </div>
                     </td>
 
                     {/* Client Name & Health Operator */}
-                    <td className="py-3 px-3.5">
-                      <div className="font-semibold text-slate-900 truncate max-w-[210px]" title={p.nomeCliente}>
+                    <td className="py-2.5 px-2.5">
+                      <div className="font-semibold text-slate-900 truncate max-w-[170px]" title={p.nomeCliente}>
                         {p.nomeCliente}
                       </div>
-                      <div className="text-[11px] text-slate-500 truncate max-w-[210px]" title={p.operadoraSaude}>
+                      <div className="text-[11px] text-slate-500 truncate max-w-[170px]" title={p.operadoraSaude}>
                         {p.operadoraSaude}
                       </div>
                     </td>
 
                     {/* Status Cliente & Status Pedido */}
-                    <td className="py-3 px-3.5">
+                    <td className="py-2.5 px-2.5">
                       <div className="flex items-center gap-1.5 font-medium text-slate-800">
                         {getStatusIcon(p.categoriaPendencia)}
-                        <span className="truncate max-w-[220px]" title={p.statusCliente}>
+                        <span className="truncate max-w-[180px] text-xs font-semibold" title={p.statusCliente}>
                           {p.statusCliente}
                         </span>
                       </div>
-                      <div className="text-[10px] text-slate-500 truncate max-w-[220px]" title={p.statusPedido}>
+                      <div className="text-[10px] text-slate-500 truncate max-w-[180px]" title={p.statusPedido}>
                         {p.statusPedido}
                       </div>
                     </td>
 
                     {/* Brokerage & Broker User */}
-                    <td className="py-3 px-3.5">
-                      <div className="font-medium text-slate-800 truncate max-w-[190px]" title={p.corretora}>
+                    <td className="py-2.5 px-2.5">
+                      <div className="font-medium text-slate-800 truncate max-w-[150px] text-xs" title={p.corretora}>
                         {p.corretora}
                       </div>
-                      <div className="text-[11px] text-slate-500 truncate max-w-[190px]" title={p.usuario}>
+                      <div className="text-[11px] text-slate-500 truncate max-w-[150px]" title={p.usuario}>
                         {p.usuario}
                       </div>
                     </td>
 
                     {/* Entity */}
-                    <td className="py-3 px-3.5 text-slate-600">
-                      <div className="truncate max-w-[160px]" title={p.entidade}>
+                    <td className="py-2.5 px-2 text-slate-600">
+                      <div className="truncate max-w-[110px] text-[11px]" title={p.entidade}>
                         {p.entidade}
                       </div>
                     </td>
 
-                    {/* Days in Status (SLA) */}
-                    <td className="py-3 px-3.5 text-right font-mono tabular-nums whitespace-nowrap">
-                      <div
-                        className={`font-semibold ${
+                    {/* Days in Status (SLA) - Encurtada e compacta */}
+                    <td className="py-2.5 px-2 text-center whitespace-nowrap">
+                      <span
+                        className={`inline-block px-1.5 py-0.5 rounded text-[11px] font-bold font-mono ${
                           isCritico
-                            ? 'text-amber-700'
-                            : p.diasNoStatus > 4
-                            ? 'text-slate-800'
-                            : 'text-slate-600'
+                            ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                            : p.diasNoStatus >= 4
+                            ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                            : 'bg-slate-100 text-slate-700'
                         }`}
+                        title={`Parado há ${p.diasNoStatus} dias no status atual`}
                       >
-                        {p.diasNoStatus} {p.diasNoStatus === 1 ? 'dia' : 'dias'}
-                      </div>
-                      <div className="text-[10px] text-slate-400 font-sans">
-                        Desde {p.dataPresenteStatus}
-                      </div>
+                        {p.diasNoStatus}d
+                      </span>
+                      <span className="block text-[9px] text-slate-400 font-mono mt-0.5" title={`Data de entrada: ${p.dataPresenteStatus}`}>
+                        {p.dataPresenteStatus ? p.dataPresenteStatus.slice(0, 5) : ''}
+                      </span>
                     </td>
 
-                    {/* Linked Auxiliary Products */}
-                    <td className="py-3 px-3.5 text-center whitespace-nowrap">
-                      <div className="inline-flex items-center gap-1.5 text-[11px] text-slate-500">
+                    {/* Linked Auxiliary Products - Encurtada e abreviada com tooltips completos */}
+                    <td className="py-2.5 px-2 text-center whitespace-nowrap">
+                      <div className="inline-flex items-center gap-1 text-[10px]">
                         {odonto ? (
                           <span
-                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono text-[10px]"
-                            title={`Odonto Nº ${odonto.numero} (${odonto.statusCliente})`}
+                            className="bg-indigo-50 border border-indigo-200/80 text-indigo-700 px-1 py-0.5 rounded font-mono font-semibold"
+                            title={`Odonto Coletivo por Adesão Nº ${odonto.numero} (${odonto.statusCliente})`}
                           >
-                            Odonto #{odonto.numero}
+                            OD #{odonto.numero}
                           </span>
                         ) : null}
                         {mac ? (
                           <span
-                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono text-[10px]"
-                            title={`Seguro MAC Nº ${mac.numero} (${mac.statusCliente})`}
+                            className="bg-teal-50 border border-teal-200/80 text-teal-700 px-1 py-0.5 rounded font-mono font-semibold"
+                            title={`Seguro Extramed MAC Nº ${mac.numero} (${mac.statusCliente})`}
                           >
                             MAC #{mac.numero}
                           </span>
+                        ) : null}
+                        {!odonto && !mac ? (
+                          <span className="text-slate-300 font-mono text-[10px]">-</span>
                         ) : null}
                       </div>
                     </td>
 
                     {/* Actions */}
-                    <td className="py-3 px-3.5 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-1.5">
+                    <td className="py-2.5 px-2 text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={e => handleCopyCobrança(e, p)}
                           title="Copiar texto de cobrança para WhatsApp"
-                          className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                          className="p-1 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded transition-colors cursor-pointer"
                         >
                           {copiedId === p.id ? (
                             <Check className="w-3.5 h-3.5 text-emerald-600" />
@@ -342,7 +334,7 @@ export const ProposalTable: React.FC<ProposalTableProps> = ({
                         <button
                           onClick={() => onSelectProposal(p)}
                           title="Ver detalhes completos"
-                          className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors"
+                          className="p-1 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors cursor-pointer"
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </button>

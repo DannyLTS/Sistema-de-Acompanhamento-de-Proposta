@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { HealthProposal, FilterState } from '../types';
-import { Building2, User, MessageSquare, Printer } from 'lucide-react';
+import { Building2, User, MessageSquare } from 'lucide-react';
 
 interface BrokerRankingChartProps {
   proposals: HealthProposal[];
   filterState: FilterState;
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
   onOpenBrokerReport: (brokerName: string) => void;
-  onOpenPrintExecutiveReport?: (brokerName?: string) => void;
 }
 
 export const BrokerRankingChart: React.FC<BrokerRankingChartProps> = ({
@@ -15,7 +14,6 @@ export const BrokerRankingChart: React.FC<BrokerRankingChartProps> = ({
   filterState,
   setFilterState,
   onOpenBrokerReport,
-  onOpenPrintExecutiveReport,
 }) => {
   const [viewMode, setViewMode] = useState<'corretora' | 'usuario'>('corretora');
 
@@ -128,15 +126,6 @@ export const BrokerRankingChart: React.FC<BrokerRankingChartProps> = ({
                     </span>
                     {viewMode === 'corretora' && (
                       <div className="flex items-center gap-0.5">
-                        {onOpenPrintExecutiveReport && (
-                          <button
-                            onClick={() => onOpenPrintExecutiveReport(item.name)}
-                            title="Imprimir dossiê com pendências desta corretora"
-                            className="text-slate-400 hover:text-blue-600 p-1 hover:bg-white rounded transition-colors"
-                          >
-                            <Printer className="w-3.5 h-3.5" />
-                          </button>
-                        )}
                         <button
                           onClick={() => onOpenBrokerReport(item.name)}
                           title="Gerar texto de cobrança para esta corretora"
@@ -180,7 +169,7 @@ export const BrokerRankingChart: React.FC<BrokerRankingChartProps> = ({
         </div>
       </div>
 
-      <div className="pt-3 mt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
+      <div className="pt-3 mt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
         <div className="flex items-center gap-2">
           <span>Clique no nome para filtrar</span>
           {(filterState.corretora || filterState.usuario) && (
@@ -192,16 +181,6 @@ export const BrokerRankingChart: React.FC<BrokerRankingChartProps> = ({
             </button>
           )}
         </div>
-
-        {onOpenPrintExecutiveReport && (
-          <button
-            onClick={() => onOpenPrintExecutiveReport()}
-            className="inline-flex items-center gap-1 text-blue-700 font-semibold hover:underline"
-          >
-            <Printer className="w-3 h-3" />
-            <span>Dossiê Geral de Impressão</span>
-          </button>
-        )}
       </div>
     </div>
   );

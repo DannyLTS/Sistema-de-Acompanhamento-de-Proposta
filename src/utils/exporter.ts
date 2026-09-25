@@ -86,7 +86,7 @@ export function generateBrokerBatchReport(proposals: HealthProposal[], brokerNam
     `*📊 RELATÓRIO CONSOLIDADO DE PENDÊNCIAS*`,
     `🏢 *Corretora:* ${brokerName}`,
     `📦 *Total de Propostas com Pendências:* ${brokerProps.length}`,
-    `📅 *Data de Emissão:* ${new Date().toLocaleDateString('pt-BR')}`,
+    `📅 *Data de Emissão:* ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`,
     `----------------------------------------`,
   ];
 

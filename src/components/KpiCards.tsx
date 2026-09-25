@@ -7,7 +7,6 @@ interface KpiCardsProps {
   filterState: FilterState;
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
   totalRawRowsCount: number;
-  onOpenPrintExecutiveReport?: () => void;
 }
 
 export const KpiCards: React.FC<KpiCardsProps> = ({
@@ -15,7 +14,6 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
   filterState,
   setFilterState,
   totalRawRowsCount,
-  onOpenPrintExecutiveReport,
 }) => {
   // Aggregate stats
   const totalProposals = proposals.length;
@@ -40,25 +38,13 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
   return (
     <div className="space-y-3">
       {/* Top Banner explaining the Smart Filtering */}
-      <div className="bg-blue-50/70 border border-blue-200/80 rounded-xl px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-blue-900">
+      <div className="bg-blue-50/70 border border-blue-200/80 rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-xs text-blue-900">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-blue-600 inline-block animate-pulse shrink-0" />
           <span className="font-semibold shrink-0">Filtro Inteligente de Saúde Ativo:</span>
           <span className="text-blue-800">
             Identificadas <strong className="font-mono tabular-nums">{totalProposals}</strong> propostas principais de saúde. Foram desmembradas <strong className="font-mono tabular-nums">{filteredAuxCount}</strong> linhas auxiliares de benefícios gratuitos (Odonto & Seguro MAC).
           </span>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {onOpenPrintExecutiveReport && (
-            <button
-              onClick={onOpenPrintExecutiveReport}
-              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-xs transition-colors cursor-pointer"
-              title="Gerar e imprimir dossiê de pendências separado por corretora e status"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Imprimir Dossiê & Roteiro</span>
-            </button>
-          )}
         </div>
       </div>
 

@@ -255,14 +255,13 @@ export default function App() {
       />
 
       {/* Main Content */}
-      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-1">
+      <main className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-1">
         {/* KPI Ribbons & Smart filter info */}
         <KpiCards
           proposals={allHealthProposals}
           filterState={filterState}
           setFilterState={setFilterState}
           totalRawRowsCount={rawRows.length}
-          onOpenPrintExecutiveReport={() => handleOpenExecutiveReport()}
         />
 
         {/* Global Filter Bar */}
@@ -272,7 +271,6 @@ export default function App() {
           allProposals={allHealthProposals}
           allRawRows={rawRows}
           onResetFilters={handleResetFilters}
-          onOpenPrintExecutiveReport={() => handleOpenExecutiveReport()}
         />
 
         {/* TAB 1: DASHBOARD (Overview with charts + table) */}
@@ -289,14 +287,12 @@ export default function App() {
                 filterState={filterState}
                 setFilterState={setFilterState}
                 onOpenBrokerReport={handleOpenBrokerReport}
-                onOpenPrintExecutiveReport={handleOpenExecutiveReport}
               />
             </div>
 
             <ProposalTable
               proposals={filteredProposals}
               onSelectProposal={setSelectedProposal}
-              onOpenPrintExecutiveReport={() => handleOpenExecutiveReport()}
               onExportExcel={handleExportExcel}
             />
           </div>
@@ -308,7 +304,6 @@ export default function App() {
             <ProposalTable
               proposals={filteredProposals}
               onSelectProposal={setSelectedProposal}
-              onOpenPrintExecutiveReport={() => handleOpenExecutiveReport()}
               onExportExcel={handleExportExcel}
             />
           </div>
@@ -324,14 +319,12 @@ export default function App() {
                   filterState={filterState}
                   setFilterState={setFilterState}
                   onOpenBrokerReport={handleOpenBrokerReport}
-                  onOpenPrintExecutiveReport={handleOpenExecutiveReport}
                 />
               </div>
               <div className="lg:col-span-2">
                 <ProposalTable
                   proposals={filteredProposals}
                   onSelectProposal={setSelectedProposal}
-                  onOpenPrintExecutiveReport={() => handleOpenExecutiveReport()}
                   onExportExcel={handleExportExcel}
                 />
               </div>
@@ -349,20 +342,13 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white py-4 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-slate-700">Painel de Pendências Extramed</span>
             <span>·</span>
             <span>Versão para Gestão Comercial NE</span>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => handleOpenExecutiveReport()}
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Imprimir Dossiê de Pendências
-            </button>
-            <span>·</span>
             <button
               onClick={() => setIsImportModalOpen(true)}
               className="text-slate-600 hover:text-slate-900"
@@ -400,7 +386,6 @@ export default function App() {
         onClose={() => setIsBrokerModalOpen(false)}
         proposals={allHealthProposals}
         initialBroker={targetBrokerForReport}
-        onOpenPrintExecutiveReport={handleOpenExecutiveReport}
       />
 
       <PrintExecutiveReportModal

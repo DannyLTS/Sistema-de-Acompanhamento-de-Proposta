@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { HealthProposal } from '../types';
 import { generateBrokerBatchReport } from '../utils/exporter';
-import { X, Building2, Copy, Check, MessageCircle, AlertCircle, Printer } from 'lucide-react';
+import { X, Building2, Copy, Check, MessageCircle, AlertCircle } from 'lucide-react';
 
 interface BrokerSummaryModalProps {
   isOpen: boolean;
   onClose: () => void;
   proposals: HealthProposal[];
   initialBroker?: string;
-  onOpenPrintExecutiveReport?: (brokerName: string) => void;
 }
 
 export const BrokerSummaryModal: React.FC<BrokerSummaryModalProps> = ({
@@ -16,7 +15,6 @@ export const BrokerSummaryModal: React.FC<BrokerSummaryModalProps> = ({
   onClose,
   proposals,
   initialBroker,
-  onOpenPrintExecutiveReport,
 }) => {
   const brokers = Array.from(
     new Set(proposals.map(p => p.corretora).filter(Boolean))
@@ -120,20 +118,6 @@ export const BrokerSummaryModal: React.FC<BrokerSummaryModalProps> = ({
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              {onOpenPrintExecutiveReport && (
-                <button
-                  onClick={() => {
-                    onClose();
-                    onOpenPrintExecutiveReport(selectedBroker);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer"
-                  title="Abrir dossiê formatado para impressão ou PDF com indicadores e lista de pendências"
-                >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Dossiê para Impressão</span>
-                </button>
-              )}
-
               <button
                 onClick={handleCopy}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FilterState, HealthProposal, RawContractRow } from '../types';
-import { Search, X, Filter, RotateCcw, Sparkles, Printer } from 'lucide-react';
+import { Search, X, Filter, RotateCcw, Sparkles } from 'lucide-react';
 
 interface FilterBarProps {
   filterState: FilterState;
@@ -8,7 +8,6 @@ interface FilterBarProps {
   allProposals: HealthProposal[];
   allRawRows: RawContractRow[];
   onResetFilters: () => void;
-  onOpenPrintExecutiveReport?: () => void;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -17,7 +16,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   allProposals,
   allRawRows,
   onResetFilters,
-  onOpenPrintExecutiveReport,
 }) => {
   // Extract unique options with counts
   const corretoras = Array.from(
@@ -100,17 +98,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 shrink-0">
-          {onOpenPrintExecutiveReport && (
-            <button
-              onClick={onOpenPrintExecutiveReport}
-              title="Gerar dossiê para impressão e cobrança por corretora e status"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Dossiê Impressão / PDF</span>
-            </button>
-          )}
-
           {/* Clear Filters Button */}
           {hasActiveFilters && (
             <button
