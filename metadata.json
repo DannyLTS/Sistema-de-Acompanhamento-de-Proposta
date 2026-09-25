@@ -1,0 +1,6 @@
+{
+  "name": "Painel de Gestão de Pendências - Extramed & Corretores",
+  "description": "Dashboard inteligente e interativo para acompanhamento de pendências de propostas de planos de saúde, com filtragem automática de produtos auxiliares (Odonto e Seguro MAC) e gestão de parceiros corretores.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
